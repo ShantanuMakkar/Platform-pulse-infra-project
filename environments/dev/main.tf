@@ -112,4 +112,6 @@ module "argocd" {
   cluster_endpoint        = module.eks.cluster_endpoint
   cluster_ca_certificate  = module.eks.cluster_certificate_authority_data
   cluster_token           = data.aws_eks_cluster_auth.this.token
+
+  depends_on = [module.eks]
 }
