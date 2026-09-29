@@ -99,3 +99,17 @@ module "github_actions_ecr_push" {
     ]
   })
 }
+
+# --- ArgoCD ---------------------------------------------------------------
+
+data "aws_eks_cluster_auth" "this" {
+  name = module.eks.cluster_name
+}
+
+module "argocd" {
+  source = "../../modules/argocd"
+
+  cluster_endpoint        = module.eks.cluster_endpoint
+  cluster_ca_certificate  = module.eks.cluster_certificate_authority_data
+  cluster_token           = data.aws_eks_cluster_auth.this.token
+}
